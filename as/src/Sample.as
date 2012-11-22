@@ -36,6 +36,8 @@ package
 			trace(tree.toStringWithVariablesReplaced(), '=', actualResult)
 			Utils.assert(expectedResult == actualResult)
 
+			// TODO: Tests for each details.
+
 			exp = '(123 * (1.3 + 1))'
 			calc(exp)
 

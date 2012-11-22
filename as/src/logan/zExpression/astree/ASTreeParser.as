@@ -48,6 +48,7 @@ package logan.zExpression.astree
 				}
 				else if (token == '+' || token == '-')
 				{
+					// TODO: Make parseFactor and parseTerm works as their names told.
 					lfs = parseTerm(token, lfs, terminators, tokens);
 				}
 				else if (token == '*' || token == '/')
