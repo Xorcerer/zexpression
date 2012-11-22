@@ -4,8 +4,9 @@
  * Time: 1:22 PM
  * Email: xorcererzc@gmail.com
  */
-package logan.zExpression
+package logan.zExpression.astree
 {
+	import logan.zExpression.*;
 	public class Tokenizer
 	{
 		public function Tokenizer()
@@ -24,6 +25,7 @@ package logan.zExpression
 			}
 			tokens.push(tokenizer.popLastToken())
 
+			trace(tokens)
 			return tokens
 		}
 
@@ -56,19 +58,22 @@ package logan.zExpression
 
 			switch (currentChar)
 			{
-				case '(':
-				case ')':
 				case '+':
 				case '-':
 				case '*':
 				case '/':
+				case ',':
 					_currentTokenType = Token.TYPE_OPERATOR
 					return getThenResetLastToken(currentChar)
-				case ' ':
-				case ',':
-					// FIXME: Consecutive "," should be invalid.
-					_currentTokenType = Token.TYPE_NONE
+				case '(':
+					_currentTokenType = Token.TYPE_OPEN_PARENTHESIS
 					return getThenResetLastToken(currentChar)
+				case ')':
+					_currentTokenType = Token.TYPE_CLOSE_PARENTHESIS
+					return getThenResetLastToken(currentChar)
+				case ' ':
+					// Simply skip it.
+					return null
 			}
 
 			if (Utils.isLetter(currentChar))

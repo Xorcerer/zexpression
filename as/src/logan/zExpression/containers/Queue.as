@@ -46,12 +46,22 @@ package logan.zExpression.containers
 		public function pop():Object
 		{
 			if (isEmpty())
-			{
 				return null
-			}
-			var data = _first.data
+
+			var data:Object = _first.data
 			_first = _first.next
+
+			if (_first == null)
+				_last = null
+
 			return data
+		}
+
+		public function head():Object
+		{
+			if (isEmpty())
+				return null
+			return _first.data
 		}
 
 		public function toString():String

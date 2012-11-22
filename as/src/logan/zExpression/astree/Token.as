@@ -1,11 +1,4 @@
-/**
- * Created with IntelliJ IDEA.
- * User: logan
- * Date: 11/19/12
- * Time: 5:09 PM
- * To change this template use File | Settings | File Templates.
- */
-package logan.zExpression
+package logan.zExpression.astree
 {
 	public class Token
 	{
@@ -13,6 +6,8 @@ package logan.zExpression
 		public static const TYPE_OPERATOR:uint = 1
 		public static const TYPE_VAR:uint = 2
 		public static const TYPE_NUMBER:uint = 3
+		public static const TYPE_OPEN_PARENTHESIS:uint = 4
+		public static const TYPE_CLOSE_PARENTHESIS:uint = 5
 
 		private var _content:String
 		private var _type:uint

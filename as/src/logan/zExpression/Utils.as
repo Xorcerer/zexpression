@@ -52,19 +52,14 @@ package logan.zExpression
 				throw new Error(comment)
 		}
 
-		public static function isNumber(token:String):Boolean
+		public static function assertEquals(a:Object, b:Object):void
 		{
-			return isDigit(token.charAt(0))
+			assert(a == b)
 		}
 
-		public static function isVariable(token:String):Boolean
+		public static function assertContains(a:Object, b:Object):void
 		{
-			return isLetter(token.charAt(0))
-		}
-
-		public static function isValue(token:String):Boolean
-		{
-			return isNumber(token) || isVariable(token)
+			assert(a.indexOf(b) >= 0)
 		}
 	}
 }
