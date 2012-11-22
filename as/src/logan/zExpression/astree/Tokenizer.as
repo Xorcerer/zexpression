@@ -25,7 +25,6 @@ package logan.zExpression.astree
 			}
 			tokens.push(tokenizer.popLastToken())
 
-			trace(tokens)
 			return tokens
 		}
 

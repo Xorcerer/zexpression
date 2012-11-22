@@ -17,7 +17,6 @@ package logan.zExpression.astree
 	{
 		public static function parse(exp:String):ASTree
 		{
-			trace('Parsing expression: ', exp)
 			var tokens:Array = Tokenizer.tokenize(exp)
 			var parser:ASTreeParser = new ASTreeParser
 			var rootNode:Node = parser.parse(new Queue(tokens), new TerminatorContainer())

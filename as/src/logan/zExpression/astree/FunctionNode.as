@@ -15,7 +15,6 @@ package logan.zExpression.astree
 			var args:Array = []
 			for each(var node:Node in children)
 				args.push(node.calculate(variables, functions))
-			trace(toStringWithVariablesReplaced(variables), '=', func.apply(null, args))
 			return func.apply(null, args)
 		}
 
