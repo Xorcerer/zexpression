@@ -15,7 +15,8 @@ ActionScript 3:
 			tree.setVariable('b', b)
 			tree.setVariable('c', c)
 			tree.setVariable('d_e', d_e)
-			tree.setFunction('min', Math.min) # min() is built-in actually.
+			tree.setFunction('min', Math.min) // min() is built-in
+			actually, as well as max().
 			var actualResult:Number = tree.calculate()
 
 			trace(tree.toStringWithVariablesReplaced(), '=', actualResult)
