@@ -21,15 +21,15 @@ package
 			var a:Number = 1
 			var b:Number = 2.5
 			var c:Number = 3
-			var d:Number = 10
-			var expectedResult:Number = a + 2 - (+3 * (+b - -c) * 2 * (Math.max(2, 1))) - Math.min(1, d)
-			var exp:String =           'a + 2 - (+3 * (+b - -c) * 2 * (     max(2, 1))) -      min(1, d)'
+			var d_e:Number = 10
+			var expectedResult:Number = a + 2 - (+3 * (+b - -c) * 2 * (Math.max(2, 1))) - Math.min(1, d_e)
+			var exp:String =           'a + 2 - (+3 * (+b - -c) * 2 * (     max(2, 1))) -      min(1, d_e)'
 
 			var tree:ASTree = ASTreeParser.parse(exp)
 			tree.setVariable('a', a)
 			tree.setVariable('b', b)
 			tree.setVariable('c', c)
-			tree.setVariable('d', d)
+			tree.setVariable('d_e', d_e)
 			tree.setFunction('min', Math.min)
 			var actualResult:Number = tree.calculate()
 

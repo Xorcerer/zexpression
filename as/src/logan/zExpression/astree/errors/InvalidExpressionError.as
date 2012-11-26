@@ -1,4 +1,4 @@
-package logan.zExpression.astree
+package logan.zExpression.astree.errors
 {
 	public class InvalidExpressionError extends Error
 	{

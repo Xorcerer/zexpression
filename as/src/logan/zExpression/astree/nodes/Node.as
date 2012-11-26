@@ -4,12 +4,11 @@
  * Time: 4:37 PM
  * Email: xorcererzc@gmail.com
  */
-package logan.zExpression.astree
+package logan.zExpression.astree.nodes
 {
 	import flash.errors.IllegalOperationError;
 
 	import logan.zExpression.*;
-	import flash.utils.Dictionary;
 
 	public class Node
 	{

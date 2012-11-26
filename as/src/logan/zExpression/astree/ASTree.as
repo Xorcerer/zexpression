@@ -8,7 +8,7 @@ package logan.zExpression.astree
 {
 	import flash.utils.Dictionary;
 
-	import logan.zExpression.astree.Node;
+	import logan.zExpression.astree.nodes.Node;
 
 	public class ASTree
 	{

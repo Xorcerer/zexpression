@@ -7,6 +7,7 @@
 package logan.zExpression.astree
 {
 	import logan.zExpression.*;
+
 	public class Tokenizer
 	{
 		public function Tokenizer()
@@ -75,7 +76,7 @@ package logan.zExpression.astree
 					return null
 			}
 
-			if (Utils.isLetter(currentChar))
+			if (Utils.isLetter(currentChar) || currentChar == "_")
 			{
 				if (_currentTokenType == Token.TYPE_VAR)
 				{

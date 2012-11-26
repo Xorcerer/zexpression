@@ -6,11 +6,13 @@
  */
 package logan.zExpression.astree
 {
-	import flashx.textLayout.elements.TextRange;
-
 	import logan.zExpression.Utils;
-
-	import logan.zExpression.Utils;
+	import logan.zExpression.astree.errors.InvalidExpressionError;
+	import logan.zExpression.astree.errors.UnexpectedTokenError;
+	import logan.zExpression.astree.nodes.FunctionNode;
+	import logan.zExpression.astree.nodes.Node;
+	import logan.zExpression.astree.nodes.NumberNode;
+	import logan.zExpression.astree.nodes.VariableNode;
 	import logan.zExpression.containers.Queue;
 
 	public class ASTreeParser
@@ -18,6 +20,7 @@ package logan.zExpression.astree
 		public static function parse(exp:String):ASTree
 		{
 			var tokens:Array = Tokenizer.tokenize(exp)
+			trace(tokens)
 			var parser:ASTreeParser = new ASTreeParser
 			var rootNode:Node = parser.parse(new Queue(tokens), new TerminatorContainer())
 			return new ASTree(rootNode)
@@ -48,16 +51,11 @@ package logan.zExpression.astree
 				}
 				else if (token == '+' || token == '-')
 				{
-					// TODO: Make parseFactor and parseTerm works as their names told.
-					lfs = parseTerm(token, lfs, terminators, tokens);
+					lfs = parseTerm(token, lfs, terminators, tokens)
 				}
 				else if (token == '*' || token == '/')
 				{
-					var rfs:Node = parseFactor(tokens)
-					var newLfs:Node = new FunctionNode(token)
-					newLfs.addChild(lfs)
-					newLfs.addChild(rfs)
-					lfs = newLfs
+					lfs = parseFactor(token, lfs, terminators, tokens)
 				}
 
 				if (terminators.match(tokens.head() as String))
@@ -117,37 +115,46 @@ package logan.zExpression.astree
 			op.addChild(parse(tokens, tc))
 
 			var terminator:String = tc.lastMatchedSymbol
-			Utils.assertEquals(tokens.head(), terminator)
 
 			if (terminator == '+' || terminator == '-')
 			{
-				tokens.pop()
+				Utils.assertEquals(tokens.pop(), terminator)
 				op = parseTerm(terminator, op, terminators, tokens)
 			}
 			return op
 		}
 
-		private function parseFactor(tokens:Queue):Node
+		private function parseFactor(operator:String, lfs:Node, terminators:TerminatorContainer, tokens:Queue):Node
 		{
+			Utils.assertContains(['*', '/'], operator)
+
+			var op:Node = new FunctionNode(operator)
+			op.addChild(lfs)
+
 			var token:String = tokens.pop() as String
 
 			if (token == null)
 				throw new InvalidExpressionError("Expect one more token at least.")
 
 			if (isNumber(token))
-				return new NumberNode(token)
-
-			if (isVariable(token))
-				return parseVariable(token, tokens)
-
-			if (token == '(')
+				op.addChild(new NumberNode(token))
+			else if (isVariable(token))
+				op.addChild(parseVariable(token, tokens))
+			else if (token == '(')
 			{
-				var result:Node = parse(tokens, new TerminatorContainer(')'))
-				tokens.pop()
-				return result
+				op.addChild(parse(tokens, new TerminatorContainer(')')))
+				Utils.assertEquals(tokens.pop(), ')')
+			}
+			else
+				throw new UnexpectedTokenError(token)
+
+			if (tokens.head() == '*' || tokens.head() == '/')
+			{
+				token = tokens.pop() as String
+				op = parseFactor(token, op, terminators, tokens)
 			}
 
-			throw new UnexpectedTokenError(token)
+			return op
 		}
 
 		public static function isNumber(token:String):Boolean

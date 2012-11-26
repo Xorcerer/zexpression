@@ -1,6 +1,6 @@
-package logan.zExpression.astree
+package logan.zExpression.astree.nodes
 {
-	import flash.utils.Dictionary;
+	import logan.zExpression.astree.nodes.Node;
 
 	public class FunctionNode extends Node
 	{
