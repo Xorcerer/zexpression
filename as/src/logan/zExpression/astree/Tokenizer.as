@@ -7,6 +7,7 @@
 package logan.zExpression.astree
 {
 	import logan.zExpression.*;
+	import logan.zExpression.astree.errors.UnknownCharError;
 
 	public class Tokenizer
 	{
@@ -116,6 +117,10 @@ package logan.zExpression.astree
 					_dotOfNumberAppeared = true
 					_untokenizedLetters.push(currentChar)
 				}
+			}
+			else
+			{
+				throw new UnknownCharError(currentChar)
 			}
 
 			return null;
