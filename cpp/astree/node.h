@@ -20,6 +20,8 @@ public:
         _content(content)
     {}
 
+    ~node() {}
+
     virtual float eval(variables_map const &variables, error &e) const = 0;
 
     virtual std::string to_string() const
@@ -27,7 +29,7 @@ public:
         return _content;
     }
 
-    virtual std::string to_string_with_variables_replaced(variables_map const &variables) const
+    virtual std::string to_string_with_variables_replaced(variables_map const &) const
     {
         return to_string();
     }

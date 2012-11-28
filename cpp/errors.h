@@ -11,8 +11,8 @@ namespace zexp
 enum error
 {
     no_error,
-    error_variable_undefined,
-    error_function_undefined,
+    error_variable_unset,
+    error_function_unset,
     error_unexpected_char,
     error_unexpected_token
 };
