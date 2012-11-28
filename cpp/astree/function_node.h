@@ -20,6 +20,8 @@ public:
 
     virtual std::string to_string() const;
 
+    virtual std::string to_string_with_variables_replaced(variables_map const &variables) const;
+
     // parameter's ownership transfer to this node.
     void add_parameter(node const &parameter);
 };
