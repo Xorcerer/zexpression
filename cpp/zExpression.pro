@@ -19,7 +19,8 @@ HEADERS += \
     astree/variable_node.h \
     astree/number_node.h \
     astree/node.h \
-    astree/function_node.h
+    astree/function_node.h \
+    astree/functor.h
 
 QMAKE_CXXFLAGS += -mmacosx-version-min=10.7
 QMAKE_LFLAGS += -mmacosx-version-min=10.7

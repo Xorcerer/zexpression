@@ -2,8 +2,8 @@
 #define ERRORS_H
 
 // Not using exceptions in zExpression,
-// For exceptions is not widely welcomed in C++ world.
-// I love exceptions personally.
+// for exceptions is not widely welcomed in C++ world.
+// Personally, I love exceptions.
 // TODO: Make throwing exceptions optional, just like boost does.
 
 namespace zexp
