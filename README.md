@@ -7,6 +7,12 @@ variables.
 
 ActionScript 3:
 
+```actionscript
+    var a:Number = 1
+    var b:Number = 2.5
+    var c:Number = 3
+    var d_e:Number = 10
+
 	var expectedResult:Number = a + 2 - (+3 * (+b - -c) * 2 * (Math.max(2, 1))) - Math.min(1, d_e)
 	var exp:String =           'a + 2 - (+3 * (+b - -c) * 2 * (     max(2, 1))) -      min(1, d_e)'
 
@@ -25,7 +31,7 @@ ActionScript 3:
 
 	trace(tree.toStringWithVariablesReplaced(), '=', actualResult)
 	Utils.assert(expectedResult == actualResult)
-
+```
 
 ### Supported languages:
 * ActionScript 3

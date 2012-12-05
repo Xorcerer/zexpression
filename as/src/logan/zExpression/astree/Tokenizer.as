@@ -7,6 +7,7 @@
 package logan.zExpression.astree
 {
 	import logan.zExpression.*;
+	import logan.zExpression.astree.errors.InvalidExpressionError;
 	import logan.zExpression.astree.errors.UnknownCharError;
 
 	public class Tokenizer
@@ -109,7 +110,7 @@ package logan.zExpression.astree
 				if (_dotOfNumberAppeared)
 				{
 					validExpression = false
-					throw Error('Too many dot "." in a number.')
+					throw InvalidExpressionError('Too many dot "." in a number.')
 				}
 
 				if (_currentTokenType == Token.TYPE_NUMBER)

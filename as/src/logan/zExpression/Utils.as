@@ -7,6 +7,8 @@
  */
 package logan.zExpression
 {
+	import logan.zExpression.astree.errors.InvalidExpressionError;
+
 	public final class Utils
 	{
 		public function Utils()
@@ -49,7 +51,7 @@ package logan.zExpression
 		public static function assert(condition:Boolean, comment:String = ''):void
 		{
 			if (!condition)
-				throw new Error(comment)
+				throw new InvalidExpressionError(comment)
 		}
 
 		public static function assertEquals(a:Object, b:Object):void
