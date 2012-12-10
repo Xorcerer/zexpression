@@ -25,9 +25,22 @@ package logan.zExpression.containers
 			return _array[_index] as String
 		}
 
+		private static const SEP:String = ' ';
+
+
 		public function toString():String
 		{
-			return _array.join(' ') + '\n' + Utils.repeatString(' ', _array.slice(0, _index).join(' ').length - 1) + '^'
+			return _array.join(SEP)
+		}
+
+		public function toStringWithIndex():String
+		{
+			return toString() + '\n' + Utils.repeatString(' ', charIndex) + '^'
+		}
+
+		public function get charIndex():int
+		{
+			return _array.slice(0, _index).join(SEP).length - 1;
 		}
 
 		public function get index():uint

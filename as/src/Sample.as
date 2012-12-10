@@ -7,6 +7,7 @@ package
 	import logan.zExpression.Utils;
 	import logan.zExpression.astree.ASTree;
 	import logan.zExpression.astree.ASTreeParser;
+	import logan.zExpression.astree.errors.InvalidExpressionError;
 	import logan.zExpression.astree.errors.UnexpectedCharError;
 	import logan.zExpression.astree.errors.UnexpectedTokenError;
 
@@ -73,11 +74,12 @@ package
 			{
 				ASTreeParser.parse(exp)
 			}
-			catch (e:Error)
+			catch (e:InvalidExpressionError)
 			{
 				if (!(e is errorType))
 					throw e
-				trace('Caught error ', errorType, ':', e.message)
+				trace('Caught error ', errorType)
+				trace(e.messageWithErrorIndicator)
 				return
 			}
 			Utils.assert(false, 'No expected error thrown!')

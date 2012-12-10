@@ -17,7 +17,7 @@ package logan.zExpression.astree.errors
 			_position = pos
 		}
 
-		public function get verboseMessage():String
+		public function get messageWithErrorIndicator():String
 		{
 			return message + '\n' + expression + '\n' + Utils.repeatString(' ', position) + '^'
 

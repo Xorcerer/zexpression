@@ -31,7 +31,6 @@ package logan.zExpression.astree
 				catch(e:InvalidExpressionError)
 				{
 					e.setExpressionAndErrorPosition(expressionStr, i)
-					trace(e.verboseMessage)
 					throw e
 				}
 			}

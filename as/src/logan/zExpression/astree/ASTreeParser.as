@@ -28,7 +28,7 @@ package logan.zExpression.astree
 			}
 			catch (e:InvalidExpressionError)
 			{
-				trace(tokens.toString())
+				e.setExpressionAndErrorPosition(tokens.toString(), tokens.charIndex)
 				throw e
 			}
 
