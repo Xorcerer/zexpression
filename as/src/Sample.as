@@ -5,9 +5,10 @@ package
 	import flash.text.TextField;
 
 	import logan.zExpression.Utils;
-
 	import logan.zExpression.astree.ASTree;
 	import logan.zExpression.astree.ASTreeParser;
+	import logan.zExpression.astree.errors.UnexpectedCharError;
+	import logan.zExpression.astree.errors.UnexpectedTokenError;
 
 	public class Sample extends Sprite
 	{
@@ -46,6 +47,13 @@ package
 
 			exp = '2 * PI'
 			calc(exp)
+
+			var errorExp:String
+			errorExp = '1 + 1.1.1 * 2'
+			parseAndExpectError(errorExp, UnexpectedCharError)
+
+			errorExp = '1 + 1) * 2'
+			parseAndExpectError(errorExp, UnexpectedTokenError)
 		}
 
 		private static function calc(exp:String, variables:Object = null):void
@@ -59,6 +67,20 @@ package
 			trace(tree.toStringWithVariablesReplaced(), '=', tree.calculate())
 		}
 
-
+		private static function parseAndExpectError(exp:String, errorType:Class):void
+		{
+			try
+			{
+				ASTreeParser.parse(exp)
+			}
+			catch (e:Error)
+			{
+				if (!(e is errorType))
+					throw e
+				trace('Caught error ', errorType, ':', e.message)
+				return
+			}
+			Utils.assert(false, 'No expected error thrown!')
+		}
 	}
 }

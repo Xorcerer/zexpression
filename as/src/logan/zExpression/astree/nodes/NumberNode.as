@@ -1,7 +1,5 @@
 package logan.zExpression.astree.nodes
 {
-	import logan.zExpression.astree.nodes.Node;
-
 	public class NumberNode extends Node
 	{
 		public function NumberNode(content:Object)

@@ -1,7 +1,5 @@
 package logan.zExpression.astree.nodes
 {
-	import logan.zExpression.astree.nodes.Node;
-
 	public class VariableNode extends Node
 	{
 		public function VariableNode(content:Object)

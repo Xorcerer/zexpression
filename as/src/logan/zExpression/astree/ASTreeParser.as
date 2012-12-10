@@ -13,24 +13,32 @@ package logan.zExpression.astree
 	import logan.zExpression.astree.nodes.Node;
 	import logan.zExpression.astree.nodes.NumberNode;
 	import logan.zExpression.astree.nodes.VariableNode;
-	import logan.zExpression.containers.Queue;
+	import logan.zExpression.containers.TokenArrayIndexer;
 
 	public class ASTreeParser
 	{
 		public static function parse(exp:String):ASTree
 		{
-			var tokens:Array = Tokenizer.tokenize(exp)
-			trace(tokens)
-			var parser:ASTreeParser = new ASTreeParser
-			var rootNode:Node = parser.parse(new Queue(tokens), new TerminatorContainer())
+			var tokens:TokenArrayIndexer = new TokenArrayIndexer(Tokenizer.tokenize(exp))
+
+			try
+			{
+				var parser:ASTreeParser = new ASTreeParser
+				var rootNode:Node = parser.parse(tokens, new TerminatorContainer())
+			}
+			catch (e:InvalidExpressionError)
+			{
+				trace(tokens.toString())
+				throw e
+			}
+
 			return new ASTree(rootNode)
 		}
 
-		private function parse(tokens:Queue, terminators:TerminatorContainer):Node
+		private function parse(tokens:TokenArrayIndexer, terminators:TerminatorContainer):Node
 		{
-			// FIXME: Parenthesis check.
 			var lfs:Node = null
-			var token:String = tokens.pop() as String
+			var token:String = tokens.getAndMoveNext()
 
 			while (token != null)
 			{
@@ -47,7 +55,7 @@ package logan.zExpression.astree
 				else if (token == '(')
 				{
 					lfs = parse(tokens, new TerminatorContainer(')'))
-					Utils.assertEquals(tokens.pop(), ')')
+					Utils.assertEquals(tokens.getAndMoveNext(), ')')
 				}
 				else if (token == '+' || token == '-')
 				{
@@ -57,46 +65,50 @@ package logan.zExpression.astree
 				{
 					lfs = parseFactor(token, lfs, terminators, tokens)
 				}
+				else
+				{
+					throw new UnexpectedTokenError(token)
+				}
 
-				if (terminators.match(tokens.head() as String))
+				if (terminators.match(tokens.current))
 					break
-				token = tokens.pop() as String
+				token = tokens.getAndMoveNext()
 			}
 
 			Utils.assert(lfs != null)
 			return lfs
 		}
 
-		private function parseVariable(variableName:String, tokens:Queue):Node
+		private function parseVariable(variableName:String, tokens:TokenArrayIndexer):Node
 		{
-			if (tokens.head() != '(')
+			if (tokens.current != '(')
 				return new VariableNode(variableName)
-			tokens.pop()
+			tokens.getAndMoveNext()
 			return parseFunctionCall(variableName, tokens)
 		}
 
-		private function parseFunctionCall(functionName:String, tokens:Queue):Node
+		private function parseFunctionCall(functionName:String, tokens:TokenArrayIndexer):Node
 		{
 			var result:Node = new FunctionNode(functionName)
 			var tc:TerminatorContainer = new TerminatorContainer(',', ')')
 
-			Utils.assert(tokens.head() != null)
-			if (tokens.head() == ')')
+			Utils.assert(tokens.current != null)
+			if (tokens.current == ')')
 			{
-				tokens.pop()
+				tokens.getAndMoveNext()
 				return result
 			}
 
 			while (tc.lastMatchedSymbol != ')')
 			{
 				result.addChild(parse(tokens, tc))
-				tokens.pop()
+				tokens.getAndMoveNext()
 			}
 
 			return result
 		}
 
-		private function parseTerm(operator:String, lfs:Node, terminators:TerminatorContainer, tokens:Queue):Node
+		private function parseTerm(operator:String, lfs:Node, terminators:TerminatorContainer, tokens:TokenArrayIndexer):Node
 		{
 			Utils.assertContains(['+', '-'], operator)
 
@@ -118,20 +130,20 @@ package logan.zExpression.astree
 
 			if (terminator == '+' || terminator == '-')
 			{
-				Utils.assertEquals(tokens.pop(), terminator)
+				Utils.assertEquals(tokens.getAndMoveNext(), terminator)
 				op = parseTerm(terminator, op, terminators, tokens)
 			}
 			return op
 		}
 
-		private function parseFactor(operator:String, lfs:Node, terminators:TerminatorContainer, tokens:Queue):Node
+		private function parseFactor(operator:String, lfs:Node, terminators:TerminatorContainer, tokens:TokenArrayIndexer):Node
 		{
 			Utils.assertContains(['*', '/'], operator)
 
 			var op:Node = new FunctionNode(operator)
 			op.addChild(lfs)
 
-			var token:String = tokens.pop() as String
+			var token:String = tokens.getAndMoveNext()
 
 			if (token == null)
 				throw new InvalidExpressionError("Expect one more token at least.")
@@ -143,14 +155,14 @@ package logan.zExpression.astree
 			else if (token == '(')
 			{
 				op.addChild(parse(tokens, new TerminatorContainer(')')))
-				Utils.assertEquals(tokens.pop(), ')')
+				Utils.assertEquals(tokens.getAndMoveNext(), ')')
 			}
 			else
 				throw new UnexpectedTokenError(token)
 
-			if (tokens.head() == '*' || tokens.head() == '/')
+			if (tokens.current == '*' || tokens.current == '/')
 			{
-				token = tokens.pop() as String
+				token = tokens.getAndMoveNext()
 				op = parseFactor(token, op, terminators, tokens)
 			}
 

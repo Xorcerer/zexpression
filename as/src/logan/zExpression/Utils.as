@@ -63,5 +63,13 @@ package logan.zExpression
 		{
 			assert(a.indexOf(b) >= 0)
 		}
+
+		public static function repeatString(string:String, times:uint):String
+		{
+			var result:String = ''
+			while (times --> 0)
+				result += string
+			return result
+		}
 	}
 }

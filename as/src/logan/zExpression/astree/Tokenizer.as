@@ -8,7 +8,7 @@ package logan.zExpression.astree
 {
 	import logan.zExpression.*;
 	import logan.zExpression.astree.errors.InvalidExpressionError;
-	import logan.zExpression.astree.errors.UnknownCharError;
+	import logan.zExpression.astree.errors.UnexpectedCharError;
 
 	public class Tokenizer
 	{
@@ -20,11 +20,20 @@ package logan.zExpression.astree
 		{
 			var tokens:Array = []
 			var tokenizer:Tokenizer = new Tokenizer;
-			for each(var char:String in expressionStr.split(''))
+			for (var i:int = 0; i < expressionStr.length; ++i)
 			{
-				var token:String = tokenizer.inputChar(char)
-				if (token != null)
-					tokens.push(token)
+				try
+				{
+					var token:String = tokenizer.inputChar(expressionStr.charAt(i))
+					if (token != null)
+						tokens.push(token)
+				}
+				catch(e:InvalidExpressionError)
+				{
+					e.setExpressionAndErrorPosition(expressionStr, i)
+					trace(e.verboseMessage)
+					throw e
+				}
 			}
 			tokens.push(tokenizer.popLastToken())
 
@@ -34,12 +43,6 @@ package logan.zExpression.astree
 		private var validExpression:Boolean = true;
 
 		private var _untokenizedLetters:Array = [];
-		private function get lastChar():String
-		{
-		    if (_untokenizedLetters.length == 0)
-				return null
-			return _untokenizedLetters[_untokenizedLetters.length - 1]
-		}
 
 		public function get finished():Boolean
 		{
@@ -110,7 +113,7 @@ package logan.zExpression.astree
 				if (_dotOfNumberAppeared)
 				{
 					validExpression = false
-					throw InvalidExpressionError('Too many dot "." in a number.')
+					throw new UnexpectedCharError(currentChar)
 				}
 
 				if (_currentTokenType == Token.TYPE_NUMBER)
@@ -121,7 +124,7 @@ package logan.zExpression.astree
 			}
 			else
 			{
-				throw new UnknownCharError(currentChar)
+				throw new UnexpectedCharError(currentChar)
 			}
 
 			return null;
