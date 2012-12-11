@@ -10,7 +10,7 @@ package logan.zExpression.containers
 
 	public class ExpressionSet extends VariableAndFunctionContainer
 	{
-		private var _getValueChain:Array = []
+		private var _resultVariableNameChain:Array = []
 		private var _expressions:Dictionary = new Dictionary // result name: expression in AST
 
 		public function ExpressionSet()
@@ -26,12 +26,12 @@ package logan.zExpression.containers
 
 		public function getValue(resultVariableName:String):Number
 		{
-			_getValueChain.push(resultVariableName)
+			_resultVariableNameChain.push(resultVariableName)
 
-			if (_getValueChain.indexOf(resultVariableName) != _getValueChain.length - 1)
+			if (_resultVariableNameChain.indexOf(resultVariableName) != _resultVariableNameChain.length - 1)
 			{
-				var e:CycleReferencesError = new CycleReferencesError(_getValueChain)
-				_getValueChain = []
+				var e:CycleReferencesError = new CycleReferencesError(_resultVariableNameChain)
+				_resultVariableNameChain = []
 				throw e
 			}
 
@@ -40,7 +40,7 @@ package logan.zExpression.containers
 				return Number(value)
 			return _expressions[resultVariableName].calculate(new ExpressionVariableAdapter(this), _functions)
 
-			_getValueChain.pop()
+			_resultVariableNameChain.pop()
 		}
 	}
 }
