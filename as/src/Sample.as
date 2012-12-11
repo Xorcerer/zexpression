@@ -68,13 +68,13 @@ package
 		private function TestMultiExpressions():void
 		{
 			var expSet:ExpressionSet = new ExpressionSet
-			expSet.addExp('b', '1 + a')
-			expSet.addExp('a', '1 + 1')
+			expSet.putExp('b', '1 + a')
+			expSet.putExp('a', '1 + 1')
 
 			trace('b = ', expSet.getValue('b'))
 
-			expSet.addExp('c', '1 + b')
-			expSet.addExp('b', '1 + c')
+			expSet.putExp('c', '1 + b')
+			expSet.putExp('b', '1 + c')
 
 			try
 			{

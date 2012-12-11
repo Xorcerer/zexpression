@@ -18,7 +18,7 @@ package logan.zExpression.containers
 			BuiltinFunctions.addBuiltinFunctions(this)
 		}
 
-		public function addExp(resultVariableName:String, exp:String):void
+		public function putExp(resultVariableName:String, exp:String):void
 		{
 			var tree:ASTree = ASTreeParser.parse(exp)
 			_expressions[resultVariableName] = tree
