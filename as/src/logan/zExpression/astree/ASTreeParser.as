@@ -7,8 +7,8 @@
 package logan.zExpression.astree
 {
 	import logan.zExpression.Utils;
-	import logan.zExpression.astree.errors.InvalidExpressionError;
-	import logan.zExpression.astree.errors.UnexpectedTokenError;
+	import logan.zExpression.errors.InvalidExpressionError;
+	import logan.zExpression.errors.UnexpectedTokenError;
 	import logan.zExpression.astree.nodes.FunctionNode;
 	import logan.zExpression.astree.nodes.Node;
 	import logan.zExpression.astree.nodes.NumberNode;

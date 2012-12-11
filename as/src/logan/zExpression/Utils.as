@@ -7,7 +7,7 @@
  */
 package logan.zExpression
 {
-	import logan.zExpression.astree.errors.InvalidExpressionError;
+	import logan.zExpression.errors.InvalidExpressionError;
 
 	public final class Utils
 	{

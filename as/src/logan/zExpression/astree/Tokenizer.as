@@ -7,8 +7,8 @@
 package logan.zExpression.astree
 {
 	import logan.zExpression.*;
-	import logan.zExpression.astree.errors.InvalidExpressionError;
-	import logan.zExpression.astree.errors.UnexpectedCharError;
+	import logan.zExpression.errors.InvalidExpressionError;
+	import logan.zExpression.errors.UnexpectedCharError;
 
 	public class Tokenizer
 	{

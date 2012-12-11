@@ -1,4 +1,4 @@
-package logan.zExpression.astree.errors
+package logan.zExpression.errors
 {
 	import logan.zExpression.Utils;
 

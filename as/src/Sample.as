@@ -7,9 +7,10 @@ package
 	import logan.zExpression.Utils;
 	import logan.zExpression.astree.ASTree;
 	import logan.zExpression.astree.ASTreeParser;
-	import logan.zExpression.astree.errors.InvalidExpressionError;
-	import logan.zExpression.astree.errors.UnexpectedCharError;
-	import logan.zExpression.astree.errors.UnexpectedTokenError;
+	import logan.zExpression.errors.CycleReferencesError;
+	import logan.zExpression.errors.InvalidExpressionError;
+	import logan.zExpression.errors.UnexpectedCharError;
+	import logan.zExpression.errors.UnexpectedTokenError;
 	import logan.zExpression.containers.ExpressionSet;
 
 	public class Sample extends Sprite
@@ -71,6 +72,22 @@ package
 			expSet.addExp('a', '1 + 1')
 
 			trace('b = ', expSet.getValue('b'))
+
+			expSet.addExp('c', '1 + b')
+			expSet.addExp('b', '1 + c')
+
+			try
+			{
+				trace('b = ', expSet.getValue('b'))
+			}
+			catch (e:CycleReferencesError)
+			{
+				trace(e)
+				return
+			}
+			Utils.assert(false)
+
+			// TODO: Cache the results.
 		}
 
 		private static function calc(exp:String, variables:Object = null):void

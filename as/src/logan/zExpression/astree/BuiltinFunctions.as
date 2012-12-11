@@ -20,7 +20,7 @@ package logan.zExpression.astree
 			return x - Number(y)
 		}
 
-		public static function addBuiltinFunctions(container:VariableAndFunctionContainer)
+		public static function addBuiltinFunctions(container:VariableAndFunctionContainer):void
 		{
 			with (container)
 			{
