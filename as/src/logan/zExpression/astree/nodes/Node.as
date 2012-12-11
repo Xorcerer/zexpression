@@ -9,6 +9,7 @@ package logan.zExpression.astree.nodes
 	import flash.errors.IllegalOperationError;
 
 	import logan.zExpression.*;
+	import logan.zExpression.containers.IVariableAdapter;
 
 	public class Node
 	{
@@ -36,12 +37,12 @@ package logan.zExpression.astree.nodes
 			return _content.toString()
 		}
 
-		public function toStringWithVariablesReplaced(variables:Object):String
+		public function toStringWithVariablesReplaced(variables:IVariableAdapter):String
 		{
 			return toString()
 		}
 
-		public function calculate(variables:Object, functions:Object):Number
+		public function calculate(variables:IVariableAdapter, functions:Object):Number
 		{
 			throw new IllegalOperationError('')
 		}

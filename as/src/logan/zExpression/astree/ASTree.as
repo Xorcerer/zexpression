@@ -8,43 +8,31 @@ package logan.zExpression.astree
 {
 	import flash.utils.Dictionary;
 
-	import logan.zExpression.astree.nodes.Node;
+	import logan.zExpression.astree.BuiltinFunctions;
 
-	public class ASTree
+	import logan.zExpression.astree.nodes.Node;
+	import logan.zExpression.containers.DictionaryVariableAdapter;
+	import logan.zExpression.containers.IVariableAdapter;
+	import logan.zExpression.containers.VariableAndFunctionContainer;
+
+	public class ASTree extends VariableAndFunctionContainer
 	{
 		private var _root:Node
-		private var _variables:Dictionary = new Dictionary
-		private var _functions:Dictionary = new Dictionary
+
 		public function ASTree(root:Node)
 		{
 			_root = root
 
-			//built-in variables and functions
-			setVariable('PI', Math.PI)
-
-			setFunction('+', BuiltinFunctions.add)
-			setFunction('-', BuiltinFunctions.minus)
-			setFunction('*', function(x:Number, y:Number):Number { return x * y })
-			setFunction('/', function(x:Number, y:Number):Number { return x / y })
-			setFunction('abs', Math.abs)
-			setFunction('min', Math.min)
-			setFunction('max', Math.max)
-			setFunction('sqrt', Math.sqrt)
+			BuiltinFunctions.addBuiltinFunctions(this)
 		}
 
-		public function setVariable(name:String, value:Number):void
+		public function calculate(variables:IVariableAdapter = null, functions:Object = null):Number
 		{
-			_variables[name] = value
-		}
-
-		public function setFunction(name:String, value:Function):void
-		{
-			_functions[name] = value
-		}
-
-		public function calculate():Number
-		{
-			return _root.calculate(_variables, _functions)
+			if (variables == null)
+				variables = new DictionaryVariableAdapter(_variables)
+			if (functions == null)
+				functions = _functions
+			return _root.calculate(variables, functions)
 		}
 
 		public function toString():String
@@ -54,7 +42,7 @@ package logan.zExpression.astree
 
 		public function toStringWithVariablesReplaced():String
 		{
-			return _root.toStringWithVariablesReplaced(_variables)
+			return _root.toStringWithVariablesReplaced(new DictionaryVariableAdapter(_variables))
 		}
 	}
 }

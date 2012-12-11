@@ -1,5 +1,7 @@
 package logan.zExpression.astree
 {
+	import logan.zExpression.containers.VariableAndFunctionContainer;
+
 	public final class BuiltinFunctions
 	{
 		// 1 + 1 -> add(1, 1)
@@ -16,6 +18,24 @@ package logan.zExpression.astree
 			if (y == null)
 				return -x
 			return x - Number(y)
+		}
+
+		public static function addBuiltinFunctions(container:VariableAndFunctionContainer)
+		{
+			with (container)
+			{
+				//built-in variables and functions
+				setVariable('PI', Math.PI)
+
+				setFunction('+', BuiltinFunctions.add)
+				setFunction('-', BuiltinFunctions.minus)
+				setFunction('*', function(x:Number, y:Number):Number { return x * y })
+				setFunction('/', function(x:Number, y:Number):Number { return x / y })
+				setFunction('abs', Math.abs)
+				setFunction('min', Math.min)
+				setFunction('max', Math.max)
+				setFunction('sqrt', Math.sqrt)
+			}
 		}
 	}
 }

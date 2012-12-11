@@ -10,11 +10,18 @@ package
 	import logan.zExpression.astree.errors.InvalidExpressionError;
 	import logan.zExpression.astree.errors.UnexpectedCharError;
 	import logan.zExpression.astree.errors.UnexpectedTokenError;
+	import logan.zExpression.containers.ExpressionSet;
 
 	public class Sample extends Sprite
 	{
 
 		public function Sample()
+		{
+			TestSingleExpression()
+			TestMultiExpressions()
+		}
+
+		private function TestSingleExpression():void
 		{
 			var textField:TextField = new TextField()
 			textField.text = 'Please look at the traces.'
@@ -25,7 +32,7 @@ package
 			var c:Number = 3
 			var d_e:Number = 10
 			var expectedResult:Number = a + 2 - (+3.0 * (+b - -c) * 2 / (Math.max(2, 1))) - Math.min(1, d_e)
-			var exp:String =           'a + 2 - (+3.0 * (+b - -c) * 2 / (     max(2, 1))) -      min(1, d_e)'
+			var exp:String = 'a + 2 - (+3.0 * (+b - -c) * 2 / (     max(2, 1))) -      min(1, d_e)'
 
 			var tree:ASTree = ASTreeParser.parse(exp)
 			tree.setVariable('a', a)
@@ -44,7 +51,7 @@ package
 			calc(exp)
 
 			exp = '2 * (a + 3 * b)'
-			calc(exp, {a: 1, b: 2.5})
+			calc(exp, {a:1, b:2.5})
 
 			exp = '2 * PI'
 			calc(exp)
@@ -55,6 +62,15 @@ package
 
 			errorExp = '1 + 1) * 2'
 			parseAndExpectError(errorExp, UnexpectedTokenError)
+		}
+
+		private function TestMultiExpressions():void
+		{
+			var expSet:ExpressionSet = new ExpressionSet
+			expSet.addExp('b', '1 + a')
+			expSet.addExp('a', '1 + 1')
+
+			trace('b = ', expSet.getValue('b'))
 		}
 
 		private static function calc(exp:String, variables:Object = null):void

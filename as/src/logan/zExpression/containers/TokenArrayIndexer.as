@@ -26,8 +26,6 @@ package logan.zExpression.containers
 		}
 
 		private static const SEP:String = ' ';
-
-
 		public function toString():String
 		{
 			return _array.join(SEP)

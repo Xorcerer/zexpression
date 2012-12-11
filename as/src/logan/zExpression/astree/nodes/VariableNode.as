@@ -1,5 +1,7 @@
 package logan.zExpression.astree.nodes
 {
+	import logan.zExpression.containers.IVariableAdapter;
+
 	public class VariableNode extends Node
 	{
 		public function VariableNode(content:Object)
@@ -7,14 +9,14 @@ package logan.zExpression.astree.nodes
 			super(content)
 		}
 
-		override public function calculate(variables:Object, functions:Object):Number
+		override public function calculate(variables:IVariableAdapter, functions:Object):Number
 		{
-			return Number(variables[content])
+			return variables.getValue(content.toString())
 		}
 
-		override public function toStringWithVariablesReplaced(variables:Object):String
+		override public function toStringWithVariablesReplaced(variables:IVariableAdapter):String
 		{
-			return variables[content]
+			return variables.getValue(content.toString()).toString()
 		}
 	}
 }

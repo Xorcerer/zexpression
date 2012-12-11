@@ -1,5 +1,7 @@
 package logan.zExpression.astree.nodes
 {
+	import logan.zExpression.containers.IVariableAdapter;
+
 	public class FunctionNode extends Node
 	{
 		public function FunctionNode(content:Object)
@@ -7,7 +9,7 @@ package logan.zExpression.astree.nodes
 			super(content)
 		}
 
-		override public function calculate(variables:Object, functions:Object):Number
+		override public function calculate(variables:IVariableAdapter, functions:Object):Number
 		{
 			var func:Function = functions[content]
 			var args:Array = []
@@ -21,7 +23,7 @@ package logan.zExpression.astree.nodes
 			return ([content, '(', children.join(), ')']).join('')
 		}
 
-		override public function toStringWithVariablesReplaced(variables:Object):String
+		override public function toStringWithVariablesReplaced(variables:IVariableAdapter):String
 		{
 			var childrenStrs:Array = []
 			for each(var n:Node in children)

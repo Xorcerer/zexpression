@@ -1,5 +1,7 @@
 package logan.zExpression.astree.nodes
 {
+	import logan.zExpression.containers.IVariableAdapter;
+
 	public class NumberNode extends Node
 	{
 		public function NumberNode(content:Object)
@@ -7,7 +9,7 @@ package logan.zExpression.astree.nodes
 			super(content)
 		}
 
-		override public function calculate(variables:Object, functions:Object):Number
+		override public function calculate(variables:IVariableAdapter, functions:Object):Number
 		{
 			return Number(content)
 		}
