@@ -6,31 +6,34 @@ variables.
 ### Example:
 
 ActionScript 3:
+```actionscript
+			var a:Number = 1
+
+			var expSet:ExpressionSet = new ExpressionSet
+
+			// Step 1: Parse expression strings.
+			expSet.putExp('b', '1 + a')
+			expSet.putExp('a', 'min(1, 10)')
+
+			// Step 2: Set variables and functions
+			expSet.setVariable('a', a)
+			expSet.setFunction('min', Math.min) // min() is built-in actually, example only.
+
+			// Step 3: Get the result. Step 2, 3 could be done repeatly.
+			trace('b = ', expSet.getValue('b'))
+```
+
+Optional Chinese variables support:
 
 ```actionscript
-    var a:Number = 1
-    var b:Number = 2.5
-    var c:Number = 3
-    var d_e:Number = 10
+			var expSet:ExpressionSet = new ExpressionSet(CnUtils.isLetterOrCnChar) // Set a custom letter validator
+			expSet.putExp('面包', '面粉 * 水')
+			expSet.putExp('家庭', '爱情 + 面包')
+			expSet.setVariable('爱情', 99)
+			expSet.setVariable('面粉', 1)
+			expSet.setVariable('水', 1)
 
-	var expectedResult:Number = a + 2 - (+3 * (+b - -c) * 2 * (Math.max(2, 1))) - Math.min(1, d_e)
-	var exp:String =           'a + 2 - (+3 * (+b - -c) * 2 * (     max(2, 1))) -      min(1, d_e)'
-
-	// Step 1: Parse expression string.
-	var tree:ASTree = ASTreeParser.parse(exp)
-
-	// Step 2: Set variables and functions
-	tree.setVariable('a', a)
-	tree.setVariable('b', b)
-	tree.setVariable('c', c)
-	tree.setVariable('d_e', d_e)
-	tree.setFunction('min', Math.min) // min() is built-in actually, as well as max().
-
-	// Step 3: Get the result. Step 2, 3 could be done repeatly.
-	var actualResult:Number = tree.calculate()
-
-	trace(tree.toStringWithVariablesReplaced(), '=', actualResult)
-	Utils.assert(expectedResult == actualResult)
+			trace('家庭 = ', expSet.getValue('家庭'))
 ```
 
 ### Supported languages:
