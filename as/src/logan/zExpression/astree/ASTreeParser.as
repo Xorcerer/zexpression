@@ -17,13 +17,15 @@ package logan.zExpression.astree
 
 	public class ASTreeParser
 	{
-		public static function parse(exp:String):ASTree
+		public static function parse(exp:String, letterValidator:Function = null):ASTree
 		{
-			var tokens:TokenArrayIndexer = new TokenArrayIndexer(Tokenizer.tokenize(exp))
+			letterValidator ||= Utils.isLetter
+
+			var tokens:TokenArrayIndexer = new TokenArrayIndexer(Tokenizer.tokenize(exp, letterValidator))
 
 			try
 			{
-				var parser:ASTreeParser = new ASTreeParser
+				var parser:ASTreeParser = new ASTreeParser(letterValidator)
 				var rootNode:Node = parser.parse(tokens, new TerminatorContainer())
 			}
 			catch (e:InvalidExpressionError)
@@ -33,6 +35,12 @@ package logan.zExpression.astree
 			}
 
 			return new ASTree(rootNode)
+		}
+
+		private static var _letterValidator:Function = Utils.isLetter
+		public function ASTreeParser(letterValidator:Function = null)
+		{
+			_letterValidator = letterValidator || Utils.isLetter
 		}
 
 		private function parse(tokens:TokenArrayIndexer, terminators:TerminatorContainer):Node
@@ -174,9 +182,9 @@ package logan.zExpression.astree
 			return Utils.isDigit(token.charAt(0))
 		}
 
-		public static function isVariable(token:String):Boolean
+		public function isVariable(token:String):Boolean
 		{
-			return Utils.isLetter(token.charAt(0))
+			return _letterValidator(token.charAt(0))
 		}
 	}
 }

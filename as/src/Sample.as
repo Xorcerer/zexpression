@@ -4,6 +4,8 @@ package
 	import flash.display.Sprite;
 	import flash.text.TextField;
 
+	import logan.zExpression.extra.CnUtils;
+
 	import logan.zExpression.Utils;
 	import logan.zExpression.astree.ASTree;
 	import logan.zExpression.astree.ASTreeParser;
@@ -20,6 +22,7 @@ package
 		{
 			TestSingleExpression()
 			TestMultiExpressions()
+			TestChineseCharacterSupport()
 		}
 
 		private function TestSingleExpression():void
@@ -33,7 +36,7 @@ package
 			var c:Number = 3
 			var d_e:Number = 10
 			var expectedResult:Number = a + 2 - (+3.0 * (+b - -c) * 2 / (Math.max(2, 1))) - Math.min(1, d_e)
-			var exp:String = 'a + 2 - (+3.0 * (+b - -c) * 2 / (     max(2, 1))) -      min(1, d_e)'
+			var exp:String =           'a + 2 - (+3.0 * (+b - -c) * 2 / (     max(2, 1))) -      min(1, d_e)'
 
 			var tree:ASTree = ASTreeParser.parse(exp)
 			tree.setVariable('a', a)
@@ -88,6 +91,18 @@ package
 			Utils.assert(false)
 
 			// TODO: Cache the results.
+		}
+
+		private function TestChineseCharacterSupport():void
+		{
+			var expSet:ExpressionSet = new ExpressionSet(CnUtils.isLetterOrCnChar)
+			expSet.putExp('面包', '面粉 * 水')
+			expSet.putExp('家庭', '爱情 + 面包')
+			expSet.setVariable('爱情', 99)
+			expSet.setVariable('面粉', 1)
+			expSet.setVariable('水', 1)
+
+			trace('家庭 = ', expSet.getValue('家庭'))
 		}
 
 		private static function calc(exp:String, variables:Object = null):void

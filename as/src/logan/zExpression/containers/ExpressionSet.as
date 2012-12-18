@@ -2,10 +2,11 @@ package logan.zExpression.containers
 {
 	import flash.utils.Dictionary;
 
+	import logan.zExpression.Utils;
+
 	import logan.zExpression.astree.ASTree;
 	import logan.zExpression.astree.ASTreeParser;
 	import logan.zExpression.astree.BuiltinFunctions;
-	import logan.zExpression.errors.CycleReferencesError;
 	import logan.zExpression.errors.CycleReferencesError;
 
 	public class ExpressionSet extends VariableAndFunctionContainer
@@ -13,14 +14,16 @@ package logan.zExpression.containers
 		private var _resultVariableNameChain:Array = []
 		private var _expressions:Dictionary = new Dictionary // result name: expression in AST
 
-		public function ExpressionSet()
+		private var _letterValidator:Function
+		public function ExpressionSet(letterValidator:Function = null)
 		{
+			_letterValidator = letterValidator || Utils.isLetter
 			BuiltinFunctions.addBuiltinFunctions(this)
 		}
 
 		public function putExp(resultVariableName:String, exp:String):void
 		{
-			var tree:ASTree = ASTreeParser.parse(exp)
+			var tree:ASTree = ASTreeParser.parse(exp, _letterValidator)
 			_expressions[resultVariableName] = tree
 		}
 

@@ -12,14 +12,12 @@ package logan.zExpression.astree
 
 	public class Tokenizer
 	{
-		public function Tokenizer()
+		public static function tokenize(expressionStr:String, letterValidator:Function = null):Array
 		{
-		}
+			letterValidator ||= Utils.isLetter
 
-		public static function tokenize(expressionStr:String):Array
-		{
 			var tokens:Array = []
-			var tokenizer:Tokenizer = new Tokenizer;
+			var tokenizer:Tokenizer = new Tokenizer(letterValidator);
 			for (var i:int = 0; i < expressionStr.length; ++i)
 			{
 				try
@@ -39,9 +37,16 @@ package logan.zExpression.astree
 			return tokens
 		}
 
-		private var validExpression:Boolean = true;
+		private var _letterValidator:Function
 
-		private var _untokenizedLetters:Array = [];
+		public function Tokenizer(letterValidator:Function = null)
+		{
+			_letterValidator = letterValidator || Utils.isLetter
+		}
+
+		private var validExpression:Boolean = true
+
+		private var _untokenizedLetters:Array = []
 
 		public function get finished():Boolean
 		{
@@ -80,7 +85,7 @@ package logan.zExpression.astree
 					return null
 			}
 
-			if (Utils.isLetter(currentChar) || currentChar == "_")
+			if (_letterValidator(currentChar) || currentChar == "_")
 			{
 				if (_currentTokenType == Token.TYPE_VAR)
 				{
