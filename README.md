@@ -26,7 +26,11 @@ ActionScript 3:
 Optional Chinese variables support:
 
 ```actionscript
-			var expSet:ExpressionSet = new ExpressionSet(CnUtils.isLetterOrCnChar) // Set a custom letter validator
+			var expSet:ExpressionSet = new ExpressionSet
+
+			// Set a custom letter validator
+			expSet.letterValidator = CnUtils.isLetterOrCnChar
+
 			expSet.putExp('面包', '面粉 * 水')
 			expSet.putExp('家庭', '爱情 + 面包')
 			expSet.setVariable('爱情', 99)

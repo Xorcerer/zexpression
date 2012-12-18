@@ -14,10 +14,9 @@ package logan.zExpression.containers
 		private var _resultVariableNameChain:Array = []
 		private var _expressions:Dictionary = new Dictionary // result name: expression in AST
 
-		private var _letterValidator:Function
-		public function ExpressionSet(letterValidator:Function = null)
+		private var _letterValidator:Function = Utils.isLetter
+		public function ExpressionSet()
 		{
-			_letterValidator = letterValidator || Utils.isLetter
 			BuiltinFunctions.addBuiltinFunctions(this)
 		}
 
@@ -44,6 +43,16 @@ package logan.zExpression.containers
 			return _expressions[resultVariableName].calculate(new ExpressionVariableAdapter(this), _functions)
 
 			_resultVariableNameChain.pop()
+		}
+
+		public function get letterValidator():Function
+		{
+			return _letterValidator
+		}
+
+		public function set letterValidator(value:Function):void
+		{
+			_letterValidator = value
 		}
 	}
 }
