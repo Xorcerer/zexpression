@@ -23,7 +23,8 @@ ActionScript 3:
 			trace('b = ', expSet.getValue('b'))
 ```
 
-Optional Chinese variables support:
+Optional i18n variables support, by replacing the letterValidator, you
+can make it support any language:
 
 ```actionscript
 			var expSet:ExpressionSet = new ExpressionSet
