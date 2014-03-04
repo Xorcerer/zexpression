@@ -7,16 +7,16 @@ variables.
 
 ActionScript 3:
 ```actionscript
-			var a:Number = 1
+			var c:Number = 1
 
 			var expSet:ExpressionSet = new ExpressionSet
 
 			// Step 1: Parse expression strings.
-			expSet.putExp('b', '1 + a')
+			expSet.putExp('b', '1 + c + 100 * min(a, 100) / 2')
 			expSet.putExp('a', 'min(1, 10)')
 
 			// Step 2: Set variables and functions
-			expSet.setVariable('a', a)
+			expSet.setVariable('c', c)
 			expSet.setFunction('min', Math.min) // min() is built-in actually, example only.
 
 			// Step 3: Get the result. Step 2, 3 could be done repeatly.
